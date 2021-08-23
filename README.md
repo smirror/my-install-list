@@ -1,5 +1,5 @@
 # install script & configure list
-
+[parrot os install list](install.sh)
 # package
 
 ## change fast site
