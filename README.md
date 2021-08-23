@@ -1,10 +1,10 @@
-# install script & configure list
+# Install script & Configure list
 [parrot os install list](install.sh)
-# package
+# Package
 
-## change fast site
+## Change fast site
 
-# install list
+# Install list
 
 ## Docker
 [docker for parrot os](https://gist.github.com/nuga99/dd5ac250b4c98154b5065d8affec7b49)
