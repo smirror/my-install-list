@@ -1,4 +1,5 @@
-# Install script & configure list
+# Install script & Configure list
+[parrot os install list](install.sh)
 
 # Package
 
