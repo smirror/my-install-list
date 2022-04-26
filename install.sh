@@ -5,7 +5,7 @@ set -e
 # install apt-fast
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys A2166B8DE8BDC3367D1901C11EE2FF37CA8DA16B
 sudo apt update
-sudo apt install apt-fast
+sudo apt install apt-fast apt-file
 pip3 install --upgrade pip
 
 # settings
@@ -45,7 +45,7 @@ sudo apt-fast install -y kubelet kubeadm kubectl
 sudo apt-mark hold kubelet kubeadm kubectl
 
 # install apt package
-sudo apt-fast install sagemath mosh haskell-stack ripgrep exa bat hexyl fd-find mosh silversearcher-ag jq httpie libssl-dev pkg-config libxml2-dev
+sudo apt-fast install sagemath mosh haskell-stack ripgrep exa bat hexyl fd-find mosh silversearcher-ag jq httpie libssl-dev pkg-config libxml2-dev nim scala cmake swig python3-git python3-semantic-version clang-format expat libxxhash-dev
 wget https://github.com/sharkdp/hyperfine/releases/download/v1.11.0/hyperfine_1.11.0_amd64.deb
 sudo dpkg -i hyperfine_1.11.0_amd64.deb
 
@@ -78,7 +78,7 @@ sudo snap install pycharm-educational --classic
 echo 'deb http://download.opensuse.org/repositories/shells:/fish:/release:/3/Debian_10/ /' | sudo tee /etc/apt/sources.list.d/shells:fish:release:3.list
 curl -fsSL https://download.opensuse.org/repositories/shells:fish:release:3/Debian_10/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/shells_fish_release_3.gpg > /dev/null
 sudo apt update
-sudo apt install fish
+sudo apt-fast install fish
 
 ## fisher
 fish
@@ -106,10 +106,11 @@ go get github.com/x-motemen/ghq
 fisher install jethrokuan/fzf
 fisher install jethrokuan/z
 fisher install decors/fish-ghq
+fisher install 0rax/fish-bd
 
 # rust libraries
-cargo install procs tokei du-dust broot sd choose lsd dog xsv bandwhich xh bingrep desed topgrade ag cargo-update
-cargo install --locked csview pueue
+cargo install procs tokei du-dust broot sd choose lsd dog xsv bandwhich xh bingrep desed topgrade ag cargo-update fselect nu shellharden gitui watchexec-cli grex silicon
+cargo install --locked csview pueue navi
 cargo install drill
 drill --benchmark benchmark.yml --stats
 
@@ -121,7 +122,7 @@ curl -LSfs https://raw.githubusercontent.com/cantino/mcfly/master/ci/install.sh 
 echo "deb http://packages.azlux.fr/debian/ buster main" | sudo tee /etc/apt/sources.list.d/azlux.list
 wget -qO - https://azlux.fr/repo.gpg.key | sudo apt-key add -
 sudo apt update
-sudo apt install gping
+sudo apt-fast install gping
 
 # SNS
 sudo snap install slack --classic
@@ -142,6 +143,27 @@ go install github.com/jesseduffield/lazygit
 
 # Vim
 pip install --user python-language-server
-sudo apt install clangd-11 npm
+sudo apt-fast install clangd-11 npm
 go install github.com/jstemmer/gotags@latest
 go install github.com/jstemmer/gotpls@latest
+
+# latex
+sudo apt-fast install texlive-full ghostscript xzdec
+tlmgr init-usertree
+
+# secure boot
+# sudo apt-fast install shim-signed sbsigntool efitools
+# sudo mv /boot/efi/EFI/Parrot/bootx64.efi /boot/efi/EFI/Parrot/grubx64.efi
+# sudo cp /usr/lib/shim/shimx64.efi /boot/efi/EFI/Parrot/bootx64.efi
+# sudo cp /usr/lib/shim/mmx64.efi /boot/efi/EFI/Parrot/
+# openssl req -newkey rsa:2048 -nodes -keyout MOK.key -new -x509 -sha256 -days 3650 -subj "/CN=my Machine Owner Key/" -out MOK.crt
+# openssl x509 -outform DER -in MOK.crt -out MOK.cer
+# sudo cp MOK.cer /boot/efi/
+# 以下はカーネル更新時に毎回行う必要がある
+# sudo sbsign --key MOK.key --cert MOK.crt --output /boot/vmlinuz-linux /boot/vmlinuz-linux
+# sudo sbsign --key MOK.key --cert MOK.crt --output /boot/efi/EFI/Parrot/grubx64.efi /boot/efi/EFI/Parrot/grubx64.efi
+
+# Zeek : Network Security Monitor https://docs.zeek.org/en/lts/install.html
+git clone --recursive https://github.com/zeek/zeek
+cd zeek
+./configure && make && sudo make install
